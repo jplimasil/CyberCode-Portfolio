@@ -148,10 +148,11 @@ function App() {
               <div className="cyber-card p-6 rounded-xl">
                 <h3 className="text-xl font-bold text-cyber-cyan mb-4">Trajetória</h3>
                 <p className="text-gray-400 leading-relaxed">
-                  Com mais de 5 anos de experiência no desenvolvimento de software, 
-                  tenho me dedicado a criar soluções inovadoras que combinam 
-                  performance e segurança. Minha jornada inclui projetos desafiadores 
-                  em diferentes setores, desde startups até grandes empresas.
+                Apaixonado por tecnologia e desenvolvimento de software, venho
+                aprimorando minhas habilidades para criar soluções eficientes e seguras.
+                Minha jornada inclui desafios em diferentes projetos, sempre buscando inovação
+                e crescimento contínuo. Estou em constante aprendizado para oferecer
+                o melhor em performance e qualidade.
                 </p>
               </div>
               <div className="cyber-card p-6 rounded-xl">
