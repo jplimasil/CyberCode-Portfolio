@@ -3,25 +3,30 @@
 @tailwind utilities;
 
 @keyframes neonPulse {
-  0%, 100% {
-    text-shadow: 0 0 4px #fff,
-                 0 0 11px #fff,
-                 0 0 19px #fff,
-                 0 0 40px #8A2BE2,
-                 0 0 80px #8A2BE2,
-                 0 0 90px #8A2BE2,
-                 0 0 100px #8A2BE2,
-                 0 0 150px #8A2BE2;
+  0% {
+    text-shadow: 0 0 3px #fff,
+                 0 0 4px #8A2BE2,
+                 0 0 5px #8A2BE2;
+  }
+  25% {
+    text-shadow: 0 0 3px #fff,
+                 0 0 4px #9B30FF,
+                 0 0 5px #9B30FF;
   }
   50% {
-    text-shadow: 0 0 4px #fff,
-                 0 0 8px #fff,
-                 0 0 15px #fff,
-                 0 0 30px #00FFFF,
-                 0 0 60px #00FFFF,
-                 0 0 70px #00FFFF,
-                 0 0 80px #00FFFF,
-                 0 0 100px #00FFFF;
+    text-shadow: 0 0 3px #fff,
+                 0 0 4px #00FFFF,
+                 0 0 5px #00FFFF;
+  }
+  75% {
+    text-shadow: 0 0 3px #fff,
+                 0 0 4px #00CED1,
+                 0 0 5px #00CED1;
+  }
+  100% {
+    text-shadow: 0 0 3px #fff,
+                 0 0 4px #8A2BE2,
+                 0 0 5px #8A2BE2;
   }
 }
 
@@ -31,7 +36,7 @@
 }
 
 .neon-text {
-  animation: neonPulse 2s infinite;
+  animation: neonPulse 1s ease-in-out infinite;
 }
 
 .typewriter {
@@ -96,5 +101,47 @@
   }
   50% {
     opacity: 0.5;
+  }
+}
+
+.typewriter-animation {
+  border-right: 2px solid #00f3ff;
+  white-space: nowrap;
+  animation: 
+    typing 1.8s steps(30, end),
+    blink-caret 0.75s step-end infinite;
+}
+
+.delay-animation {
+  animation: 
+    typing 1.8s steps(30, end) 1.7s,
+    blink-caret 0.75s step-end infinite 1.7s;
+}
+
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #00f3ff }
+}
+
+@media (min-width: 768px) {
+  .typewriter-animation {
+    animation: 
+      typing 3.5s steps(50, end),
+      blink-caret 0.75s step-end infinite;
+  }
+  
+  .delay-animation {
+    animation: 
+      typing 3.5s steps(50, end),
+      blink-caret 0.75s step-end infinite;
+  }
+  
+  .typewriter-animation + .typewriter-animation {
+    margin-left: 0.5rem;
   }
 }

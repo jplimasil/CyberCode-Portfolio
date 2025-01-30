@@ -3,6 +3,8 @@ import { Code2, Terminal, Cpu, Mail, Github, ExternalLink, Monitor, Database, Cl
 
 function App() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +22,19 @@ function App() {
     }
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(formData);
+  };
+
   return (
     <div className="bg-cyber-black min-h-screen text-white">
       {/* Navigation Bar */}
@@ -29,6 +44,8 @@ function App() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="text-cyber-cyan font-bold text-xl">CyberCode</div>
+            
+            {/* Desktop Menu */}
             <div className="hidden md:flex space-x-8">
               {[
                 { name: 'Home', icon: <Home className="w-4 h-4" />, id: 'home' },
@@ -48,10 +65,44 @@ function App() {
                 </button>
               ))}
             </div>
-            {/* Mobile Menu Button - You can expand this for mobile navigation */}
-            <button className="md:hidden text-cyber-cyan">
+
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={toggleMenu}
+              className="md:hidden text-cyber-cyan p-2 rounded-lg hover:bg-cyber-blue/20 transition-colors"
+            >
               <Terminal className="w-6 h-6" />
             </button>
+          </div>
+
+          {/* Mobile Menu */}
+          <div className={`md:hidden absolute top-16 left-0 w-full bg-cyber-black/95 backdrop-blur-md
+            overflow-hidden transition-all duration-300 ease-in-out ${
+              isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+            }`}
+          >
+            <div className="px-4 py-6 space-y-6">
+              {[
+                { name: 'Home', icon: <Home className="w-5 h-5" />, id: 'home' },
+                { name: 'Skills', icon: <Terminal className="w-5 h-5" />, id: 'skills' },
+                { name: 'About Me', icon: <User className="w-5 h-5" />, id: 'about' },
+                { name: 'Projects', icon: <Briefcase className="w-5 h-5" />, id: 'projects' },
+                { name: 'Contact', icon: <Mail className="w-5 h-5" />, id: 'contact' },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    scrollToSection(item.id);
+                    closeMenu();
+                  }}
+                  className="w-full flex items-center gap-4 text-gray-300 hover:text-cyber-cyan
+                    transition-colors py-3 px-4 rounded-lg hover:bg-cyber-blue/10"
+                >
+                  {item.icon}
+                  <span className="text-lg">{item.name}</span>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </nav>
@@ -62,7 +113,10 @@ function App() {
         <div className="relative z-10 text-center">
           <h1 className="text-6xl font-bold mb-4 neon-text">João Pedro</h1>
           <p className="text-xl text-cyber-cyan typewriter mb-8">Desenvolvedor C# | Criador de Soluções em .NET</p>
-          <button className="px-8 py-3 rounded-lg gradient-border group transition-all duration-300">
+          <button 
+            onClick={() => scrollToSection('projects')}
+            className="px-8 py-3 rounded-lg gradient-border group transition-all duration-300"
+          >
             <span className="relative z-10 flex items-center gap-2 group-hover:text-cyber-cyan">
               <Code2 className="w-5 h-5" />
               Explorar Projetos
@@ -148,11 +202,11 @@ function App() {
               <div className="cyber-card p-6 rounded-xl">
                 <h3 className="text-xl font-bold text-cyber-cyan mb-4">Trajetória</h3>
                 <p className="text-gray-400 leading-relaxed">
-                Apaixonado por tecnologia e desenvolvimento de software, venho
-                aprimorando minhas habilidades para criar soluções eficientes e seguras.
-                Minha jornada inclui desafios em diferentes projetos, sempre buscando inovação
-                e crescimento contínuo. Estou em constante aprendizado para oferecer
-                o melhor em performance e qualidade.
+                  Apaixonado por tecnologia e desenvolvimento de software, venho
+                  aprimorando minhas habilidades para criar soluções eficientes e seguras.
+                  Minha jornada inclui desafios em diferentes projetos, sempre buscando inovação
+                  e crescimento contínuo. Estou em constante aprendizado para oferecer
+                  o melhor em performance e qualidade.
                 </p>
               </div>
               <div className="cyber-card p-6 rounded-xl">
@@ -195,11 +249,13 @@ function App() {
       <section id="contact" className="py-20 px-4 bg-cyber-blue/20">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 neon-text">Contato</h2>
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="cyber-card p-6 rounded-xl">
               <input
                 type="text"
                 placeholder="Nome"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full bg-transparent border-b-2 border-cyber-cyan/30 focus:border-cyber-cyan py-2 outline-none transition-colors"
               />
             </div>
@@ -207,6 +263,8 @@ function App() {
               <input
                 type="email"
                 placeholder="Email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full bg-transparent border-b-2 border-cyber-cyan/30 focus:border-cyber-cyan py-2 outline-none transition-colors"
               />
             </div>
@@ -214,10 +272,12 @@ function App() {
               <textarea
                 placeholder="Mensagem"
                 rows={4}
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full bg-transparent border-b-2 border-cyber-cyan/30 focus:border-cyber-cyan py-2 outline-none transition-colors"
               ></textarea>
             </div>
-            <button className="w-full px-8 py-3 rounded-lg gradient-border group transition-all duration-300">
+            <button type="submit" className="w-full px-8 py-3 rounded-lg gradient-border group transition-all duration-300">
               <span className="relative z-10 flex items-center justify-center gap-2 group-hover:text-cyber-cyan">
                 <Mail className="w-5 h-5" />
                 Enviar Mensagem
@@ -230,6 +290,7 @@ function App() {
   );
 }
 
+// Dados dos Projetos
 const projects = [
   {
     title: 'Neon Quest',
@@ -257,6 +318,7 @@ const projects = [
   }
 ];
 
+// Dados das Habilidades
 const skills = [
   {
     name: 'C#',
